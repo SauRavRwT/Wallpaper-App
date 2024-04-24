@@ -11,6 +11,7 @@ function App() {
 
   useEffect(() => {
     getImages(pageIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]); // Reload images when pageIndex changes
 
   const fetchImages = async (url) => {
@@ -80,23 +81,28 @@ function App() {
   };
 
   const handleLoadMore = () => {
-    setPageIndex((prevIndex) => prevIndex + 1);
+    if (searchValueGlobal) {
+      // If searching, load more searched images
+      getMoreSearchedImages(pageIndex + 1);
+    } else {
+      // If not searching, load more curated images
+      setPageIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   return (
     <section>
       <div className="container">
         <header className="header">
-          <img src={Logo} />
+          <img src={Logo} alt="Logo" />
           <form onSubmit={handleSearch}>
             <input type="text" placeholder="Search" />
-            <ion-icon name="search-outline"></ion-icon>
           </form>
         </header>
         <div className="gallery">{GenerateHTML(images)}</div>
-        <a className="load-more" onClick={handleLoadMore}>
+        <button className="load-more" onClick={handleLoadMore}>
           Load More
-        </a>
+        </button>
       </div>
     </section>
   );
