@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Wallpaper-App/static/css/main.4fbd37d4.css",
+    "main.js": "/Wallpaper-App/static/js/main.44a424fe.js",
+    "static/js/453.f6d97cf9.chunk.js": "/Wallpaper-App/static/js/453.f6d97cf9.chunk.js",
+    "static/media/Logo.png": "/Wallpaper-App/static/media/Logo.4b546f3dbda104e1b208.png",
+    "index.html": "/Wallpaper-App/index.html",
+    "main.4fbd37d4.css.map": "/Wallpaper-App/static/css/main.4fbd37d4.css.map",
+    "main.44a424fe.js.map": "/Wallpaper-App/static/js/main.44a424fe.js.map",
+    "453.f6d97cf9.chunk.js.map": "/Wallpaper-App/static/js/453.f6d97cf9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4fbd37d4.css",
+    "static/js/main.44a424fe.js"
+  ]
+}
