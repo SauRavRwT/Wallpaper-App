@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/Wallpaper-App/static/css/main.4fbd37d4.css",
-    "main.js": "/Wallpaper-App/static/js/main.44a424fe.js",
-    "static/js/453.f6d97cf9.chunk.js": "/Wallpaper-App/static/js/453.f6d97cf9.chunk.js",
-    "static/media/Logo.png": "/Wallpaper-App/static/media/Logo.4b546f3dbda104e1b208.png",
+    "main.css": "/Wallpaper-App/static/css/main.6493f17a.chunk.css",
+    "main.js": "/Wallpaper-App/static/js/main.4ab08539.chunk.js",
+    "main.js.map": "/Wallpaper-App/static/js/main.4ab08539.chunk.js.map",
+    "runtime~main.js": "/Wallpaper-App/static/js/runtime~main.386815fa.js",
+    "runtime~main.js.map": "/Wallpaper-App/static/js/runtime~main.386815fa.js.map",
+    "static/js/2.a71b1702.chunk.js": "/Wallpaper-App/static/js/2.a71b1702.chunk.js",
+    "static/js/2.a71b1702.chunk.js.map": "/Wallpaper-App/static/js/2.a71b1702.chunk.js.map",
+    "static/js/3.a29efab2.chunk.js": "/Wallpaper-App/static/js/3.a29efab2.chunk.js",
+    "static/js/3.a29efab2.chunk.js.map": "/Wallpaper-App/static/js/3.a29efab2.chunk.js.map",
     "index.html": "/Wallpaper-App/index.html",
-    "main.4fbd37d4.css.map": "/Wallpaper-App/static/css/main.4fbd37d4.css.map",
-    "main.44a424fe.js.map": "/Wallpaper-App/static/js/main.44a424fe.js.map",
-    "453.f6d97cf9.chunk.js.map": "/Wallpaper-App/static/js/453.f6d97cf9.chunk.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.4fbd37d4.css",
-    "static/js/main.44a424fe.js"
-  ]
+    "precache-manifest.8a09f7cf0d11f6f39d8e80547048e455.js": "/Wallpaper-App/precache-manifest.8a09f7cf0d11f6f39d8e80547048e455.js",
+    "service-worker.js": "/Wallpaper-App/service-worker.js",
+    "static/css/main.6493f17a.chunk.css.map": "/Wallpaper-App/static/css/main.6493f17a.chunk.css.map"
+  }
 }
