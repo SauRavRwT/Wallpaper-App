@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9306811056bfc087acf03fdd0ba1b928",
+    "revision": "91948ed635f4313e629864748ee99e11",
     "url": "/Wallpaper-App/index.html"
   },
   {
-    "revision": "2349392b5a5faa8c1480",
-    "url": "/Wallpaper-App/static/css/main.6493f17a.chunk.css"
+    "revision": "170e4e99511618330aad",
+    "url": "/Wallpaper-App/static/css/main.d35f229e.chunk.css"
   },
   {
     "revision": "1f5929bab9e74fc2d234",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Wallpaper-App/static/js/3.a29efab2.chunk.js"
   },
   {
-    "revision": "2349392b5a5faa8c1480",
-    "url": "/Wallpaper-App/static/js/main.4ab08539.chunk.js"
+    "revision": "170e4e99511618330aad",
+    "url": "/Wallpaper-App/static/js/main.c23aea97.chunk.js"
   },
   {
     "revision": "552cf812c1736199f175",
