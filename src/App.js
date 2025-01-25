@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./App.css";
-// import logo from "./assets/logo.png";
 import Download from "./assets/download.png";
 
 function App() {
@@ -8,6 +7,9 @@ function App() {
   const [images, setImages] = useState([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [searchValueGlobal, setSearchValueGlobal] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [noResults, setNoResults] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   const fetchImages = useCallback(
     async (url) => {
@@ -19,8 +21,7 @@ function App() {
             Authorization: API_KEY,
           },
         });
-        const data = await response.json();
-        return data;
+        return await response.json();
       } catch (error) {
         console.error("Error fetching images:", error);
         return { photos: [] };
@@ -30,35 +31,69 @@ function App() {
   );
 
   const getImages = useCallback(
-    async (index) => {
+    async (index, isAppending = false) => {
+      setLoading(true);
+      setNoResults(false);
       const baseURL = `https://api.pexels.com/v1/curated?page=${index}&per_page=12`;
       const data = await fetchImages(baseURL);
-      setImages(data.photos);
+
+      if (data.photos.length === 0) {
+        if (!isAppending) setNoResults(true);
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+
+      setImages((prevImages) =>
+        isAppending
+          ? [
+              ...new Map(
+                [...prevImages, ...data.photos].map((img) => [img.id, img])
+              ).values(),
+            ]
+          : data.photos
+      );
+
+      setPageIndex(index);
+      setLoading(false);
     },
     [fetchImages]
   );
 
   const getSearchedImages = useCallback(
-    async (searchValue) => {
-      const baseURL = `https://api.pexels.com/v1/search?query=${searchValue}&page=1&per_page=12`;
+    async (searchValue, index = 1, isAppending = false) => {
+      setLoading(true);
+      setNoResults(false);
+      const baseURL = `https://api.pexels.com/v1/search?query=${searchValue}&page=${index}&per_page=12`;
       const data = await fetchImages(baseURL);
-      setImages(data.photos);
+
+      if (data.photos.length === 0) {
+        if (!isAppending) setNoResults(true);
+        setHasMore(false);
+        if (isAppending) {
+          window.alert("No more images available.");
+        }
+      } else {
+        setHasMore(true);
+      }
+
+      setImages((prevImages) =>
+        isAppending
+          ? [
+              ...new Map(
+                [...prevImages, ...data.photos].map((img) => [img.id, img])
+              ).values(),
+            ]
+          : data.photos
+      );
+
+      setLoading(false);
     },
     [fetchImages]
   );
 
-  const getMoreSearchedImages = useCallback(
-    async (index) => {
-      const baseURL = `https://api.pexels.com/v1/search?query=${searchValueGlobal}&page=${index}&per_page=12`;
-      const data = await fetchImages(baseURL);
-      setImages((prevImages) => [...prevImages, ...data.photos]);
-    },
-    [fetchImages, searchValueGlobal]
-  );
-
   const handleSearch = (e) => {
     e.preventDefault();
-    setPageIndex(1);
     const searchValue = e.target.querySelector("input").value;
     setSearchValueGlobal(searchValue);
     getSearchedImages(searchValue);
@@ -66,54 +101,84 @@ function App() {
   };
 
   const handleLoadMore = () => {
-    if (searchValueGlobal) {
-      getMoreSearchedImages(pageIndex + 1);
+    if (hasMore) {
+      if (searchValueGlobal) {
+        getSearchedImages(searchValueGlobal, pageIndex + 1, true);
+      } else {
+        getImages(pageIndex + 1, true);
+      }
     } else {
-      setPageIndex((prevIndex) => prevIndex + 1);
+      window.alert("No more images available.");
     }
   };
 
-  useEffect(() => {
-    getImages(pageIndex);
-  }, [pageIndex, getImages]);
-
-  const GenerateHTML = (photos) => {
-    return photos.map((photo) => (
-      <div className="item" key={photo.id}>
-        <a
-          href={photo.src.original}
-          data-lightbox="Gallery"
-          data-title={photo.photographer}
-        >
-          <img src={photo.src.large} alt={photo.photographer} />
-          <h3>{photo.photographer}</h3>
-        </a>
-        <a
-          href={photo.src.original}
-          target="_blank"
-          download={photo.src.original}
-          rel="noopener noreferrer"
-        >
-          <img className="photo-download_info" src={Download} alt="Download" />
-        </a>
-      </div>
-    ));
+  const handleHeaderClick = () => {
+    setImages([]);
+    setPageIndex(1);
+    setSearchValueGlobal("");
+    setNoResults(false);
+    setHasMore(true);
+    getImages(1);
   };
+
+  useEffect(() => {
+    getImages(1);
+  }, [getImages]);
+
+  const GenerateHTML = useMemo(
+    () => (photos) =>
+      photos.map((photo, index) => (
+        <div className="item" key={`${photo.id}-${index}`}>
+          <a
+            href={photo.src.original}
+            data-lightbox="Art-Gallery"
+            data-title={photo.photographer}
+          >
+            <img src={photo.src.large} alt={photo.photographer} />
+            <h3>{photo.photographer}</h3>
+          </a>
+          <a
+            href={photo.src.original}
+            target="_blank"
+            download={photo.src.original}
+            rel="noopener noreferrer"
+          >
+            <img
+              className="photo-download_info"
+              src={Download}
+              alt="Download"
+            />
+          </a>
+        </div>
+      )),
+    []
+  );
 
   return (
     <section>
       <div className="container">
         <header className="header">
-          {/* <img src={logo} alt="logo" /> */}
-          <h1>Art-Gallery</h1>
+          <h1 onClick={handleHeaderClick} style={{ cursor: "pointer" }}>
+            Art-Gallery
+          </h1>
           <form onSubmit={handleSearch}>
             <input type="text" placeholder="Search" />
+            <ion-icon name="search-outline"></ion-icon>
           </form>
         </header>
-        <div className="gallery">{GenerateHTML(images)}</div>
-        <button className="load-more" onClick={handleLoadMore}>
-          Load More
-        </button>
+        <div className="gallery">
+          {noResults ? (
+            <div className="no-results">No images found for your search.</div>
+          ) : (
+            GenerateHTML(images)
+          )}
+        </div>
+        {!loading && !noResults && (
+          <button className="load-more" onClick={handleLoadMore}>
+            Load More
+          </button>
+        )}
+        {loading && <div style={{padding:"1rem"}}>Loading...</div>}
       </div>
     </section>
   );
