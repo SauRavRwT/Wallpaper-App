@@ -10,8 +10,29 @@ Art-Gallery is a modern web application built with React.js that provides high-q
 - 🔍 Easy navigation system
 - 👥 User-friendly interface
 
+## Features
+
+- 🔍 Smart Search with Recent Searches.
+- 💾 Intelligent Caching System.
+- ⚡ Fast Loading with Preloader.
+- 📱 Responsive Design.
+- 🔄 Infinite Scroll with "Load More".
+- 🖼️ Lightbox Image Preview.
+- ⬇️ Direct Image Download.
+- 🎯 Search Suggestions.
+- 💪 Performance Optimizations.
+
+## Recent Changes
+
+- Added smart caching system for images (1-hour cache duration).
+- Implemented recent searches feature.
+- Added search suggestions.
+- Improved error handling.
+- Enhanced performance with useMemo and useCallback.
+- Added loading states and "No Results" feedback.
+
 ## Preview
-<img src="./images/p1.png" />
+<img src="./images/sample-2.png" />
 
 ## Installation
 
