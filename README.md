@@ -11,10 +11,7 @@ Art-Gallery is a modern web application built with React.js that provides high-q
 - 👥 User-friendly interface
 
 ## Preview
-<div align="center">
-  <img src="./images/p1.png" width="48%" />
-  <img src="./images/p2.png" width="48%" />
-</div>
+<img src="./images/p1.png" />
 
 ## Installation
 
