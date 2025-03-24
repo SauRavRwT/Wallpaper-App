@@ -4,15 +4,15 @@ import Download from "./assets/download.png";
 
 function App() {
   const API_KEY = "ndFZWMqcwlbe4uaEQAjp48nuA7t17Agu18kaGyieUpXK5UIDUEqsGVvl";
-  
+
   // Move CACHE_DURATION to useMemo
   const CACHE_DURATION = useMemo(() => 1000 * 60 * 60, []); // 1 hour cache
 
   // Add cache related states
   const [state, setState] = useState({
-    images: JSON.parse(localStorage.getItem('cachedImages')) || [],
+    images: JSON.parse(localStorage.getItem("cachedImages")) || [],
     pageIndex: 1,
-    timestamp: parseInt(localStorage.getItem('cacheTimestamp')) || 0
+    timestamp: parseInt(localStorage.getItem("cacheTimestamp")) || 0,
   });
 
   const [images, setImages] = useState([]);
@@ -23,16 +23,18 @@ function App() {
   const [hasMore, setHasMore] = useState(true);
   const [showPreloader, setShowPreloader] = useState(true);
   const [suggestions, setSuggestions] = useState(() => {
-    const saved = localStorage.getItem('recentSearches');
-    return saved ? JSON.parse(saved) : ['nature', 'abstract', 'minimal', 'dark'];
+    const saved = localStorage.getItem("recentSearches");
+    return saved
+      ? JSON.parse(saved)
+      : ["nature", "abstract", "minimal", "dark"];
   });
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const saveToCache = useCallback((images) => {
     const timestamp = Date.now();
-    localStorage.setItem('cachedImages', JSON.stringify(images));
-    localStorage.setItem('cacheTimestamp', timestamp.toString());
-    setState(prev => ({ ...prev, images, timestamp }));
+    localStorage.setItem("cachedImages", JSON.stringify(images));
+    localStorage.setItem("cacheTimestamp", timestamp.toString());
+    setState((prev) => ({ ...prev, images, timestamp }));
   }, []);
 
   const isCacheValid = useCallback(() => {
@@ -43,7 +45,7 @@ function App() {
   const fetchImages = useCallback(
     async (url, useCache = true) => {
       const cacheKey = `image_cache_${url}`;
-      
+
       // Check cache first
       if (useCache) {
         const cachedData = localStorage.getItem(cacheKey);
@@ -64,13 +66,16 @@ function App() {
           },
         });
         const data = await response.json();
-        
+
         // Save to cache
-        localStorage.setItem(cacheKey, JSON.stringify({
-          data,
-          timestamp: Date.now()
-        }));
-        
+        localStorage.setItem(
+          cacheKey,
+          JSON.stringify({
+            data,
+            timestamp: Date.now(),
+          })
+        );
+
         return data;
       } catch (error) {
         // console.error("Error fetching images:", error);
@@ -160,10 +165,13 @@ function App() {
 
       // Cache search results
       if (!isAppending) {
-        localStorage.setItem(cacheKey, JSON.stringify({
-          data: data.photos,
-          timestamp: Date.now()
-        }));
+        localStorage.setItem(
+          cacheKey,
+          JSON.stringify({
+            data: data.photos,
+            timestamp: Date.now(),
+          })
+        );
       }
 
       setLoading(false);
@@ -175,11 +183,14 @@ function App() {
     setSearchValueGlobal(suggestion);
     getSearchedImages(suggestion);
     setShowSuggestions(false);
-    
+
     // Update recent searches
-    setSuggestions(prev => {
-      const updated = [suggestion, ...prev.filter(s => s !== suggestion)].slice(0, 5);
-      localStorage.setItem('recentSearches', JSON.stringify(updated));
+    setSuggestions((prev) => {
+      const updated = [
+        suggestion,
+        ...prev.filter((s) => s !== suggestion),
+      ].slice(0, 5);
+      localStorage.setItem("recentSearches", JSON.stringify(updated));
       return updated;
     });
   };
@@ -188,18 +199,21 @@ function App() {
     e.preventDefault();
     const searchValue = e.target.querySelector("input").value;
     if (!searchValue.trim()) return;
-    
+
     setSearchValueGlobal(searchValue);
     getSearchedImages(searchValue);
     setShowSuggestions(false);
-    
+
     // Update recent searches
-    setSuggestions(prev => {
-      const updated = [searchValue, ...prev.filter(s => s !== searchValue)].slice(0, 5);
-      localStorage.setItem('recentSearches', JSON.stringify(updated));
+    setSuggestions((prev) => {
+      const updated = [
+        searchValue,
+        ...prev.filter((s) => s !== searchValue),
+      ].slice(0, 5);
+      localStorage.setItem("recentSearches", JSON.stringify(updated));
       return updated;
     });
-    
+
     e.target.reset();
   };
 
@@ -230,7 +244,7 @@ function App() {
       const now = Date.now();
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key?.startsWith('image_cache_') || key?.startsWith('search_')) {
+        if (key?.startsWith("image_cache_") || key?.startsWith("search_")) {
           const item = JSON.parse(localStorage.getItem(key));
           if (now - item.timestamp > CACHE_DURATION) {
             localStorage.removeItem(key);
@@ -251,6 +265,23 @@ function App() {
     return () => clearTimeout(timer);
   }, [getImages, CACHE_DURATION]);
 
+  const handleDownload = async (url, photographerName) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `${photographerName}-${Date.now()}-Art-Gallery.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
+
   const GenerateHTML = useMemo(
     () => (photos) =>
       photos.map((photo, index) => (
@@ -264,9 +295,11 @@ function App() {
             <h3>{photo.photographer}</h3>
           </a>
           <a
-            href={photo.src.original}
-            target="_blank"
-            download={photo.src.original}
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleDownload(photo.src.original, photo.photographer);
+            }}
             rel="noopener noreferrer"
           >
             <img
@@ -293,11 +326,11 @@ function App() {
             <h1 onClick={handleHeaderClick} style={{ cursor: "pointer" }}>
               Art-Gallery
             </h1>
-            <div className="search-container" style={{ position: 'relative' }}>
+            <div className="search-container" style={{ position: "relative" }}>
               <form onSubmit={handleSearch}>
-                <input 
-                  type="text" 
-                  placeholder="Search" 
+                <input
+                  type="text"
+                  placeholder="Search"
                   onFocus={() => setShowSuggestions(true)}
                 />
                 <ion-icon name="search-outline"></ion-icon>
