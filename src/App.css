@@ -10,14 +10,14 @@
   align-items: center;
   z-index: 1000;
   animation: fadeOutPreloader 1s ease-in-out forwards;
-  animation-delay: 2s;
+  animation-delay: 1.5s;
 }
 
 .preloader h2 {
   color: #fff;
   font-size: clamp(2rem, 5vw, 3rem);
   letter-spacing: clamp(5px, 2vw, 10px);
-  animation: textReveal 2s ease-in-out;
+  animation: textReveal 1.5s ease-in-out;
 }
 
 @keyframes fadeOutPreloader {
@@ -88,6 +88,11 @@ form {
   position: relative;
   width: 100%;
   max-width: 400px;
+  transition: transform 0.3s ease;
+}
+
+form:focus-within {
+  transform: scale(1.02);
 }
 
 form ion-icon {
@@ -95,6 +100,12 @@ form ion-icon {
   right: 15px;
   font-size: 1.2rem;
   color: #1a4d2e;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+form:hover ion-icon {
+  transform: scale(1.1);
+  color: #4f6f52;
 }
 
 input {
@@ -303,4 +314,31 @@ input::placeholder {
     position: absolute;
     width: 100%;
   }
+}
+
+.suggestions-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 15px 0;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pill-item {
+  background: #1a4d2e;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.pill-item:hover {
+  background: #4f6f52;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }

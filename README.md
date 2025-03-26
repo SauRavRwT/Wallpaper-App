@@ -1,5 +1,3 @@
-# Description
-
 # Art-Gallery - A Modern Wallpaper Web Application
 
 ## Overview
@@ -12,27 +10,41 @@ Art-Gallery is a modern web application built with React.js that provides high-q
 
 ## Features
 
-- 🔍 Smart Search with Recent Searches.
-- 💾 Intelligent Caching System.
-- ⚡ Fast Loading with Preloader.
-- 📱 Responsive Design.
-- 🔄 Infinite Scroll with "Load More".
-- 🖼️ Lightbox Image Preview.
-- ⬇️ Direct Image Download.
-- 🎯 Search Suggestions.
-- 💪 Performance Optimizations.
+- 🔍 Smart Search with Recent Searches (persisted in localStorage)
+- 💾 Advanced Caching System (1-hour duration)
+- ⚡ Elegant Preloader Animation
+- 📱 Responsive Design with Modern UI
+- 🔄 Infinite Scroll with Intersection Observer
+- 🖼️ Lightbox Image Preview
+- ⬇️ Direct High-Resolution Image Download
+- 🎯 Search History Pills
+- 💪 Performance Optimizations with React Hooks
 
 ## Recent Changes
 
-- Added smart caching system for images (1-hour cache duration).
-- Implemented recent searches feature.
-- Added search suggestions.
-- Improved error handling.
-- Enhanced performance with useMemo and useCallback.
-- Added loading states and "No Results" feedback.
+- Implemented advanced image caching system (1-hour duration)
+- Added search history pills with localStorage persistence
+- Enhanced infinite scroll using Intersection Observer
+- Optimized performance with useMemo and useCallback
+- Added elegant preloader animation
+- Improved error handling and loading states
+- Implemented direct high-resolution image downloads
+- Added "No Results" feedback for empty searches
+
+## Technical Details
+
+### Caching System
+- Images are cached in localStorage for 1 hour
+- Automatic cache cleanup for expired entries
+- Cache key format: `image_cache_${url}`
+
+### Search Features
+- Recent searches stored in localStorage
+- Up to 5 recent searches displayed as pills
+- Default suggestions: nature, abstract, minimal, dark
 
 ## Preview
-<img src="./images/sample-2.png" />
+<img src="./images/sample-3.png" />
 
 ## Installation
 
