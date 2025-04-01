@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
+import { FaSearch } from "react-icons/fa";
 import "./App.css";
 import Download from "./assets/download.png";
 
@@ -23,7 +24,7 @@ function App() {
     const saved = localStorage.getItem("recentSearches");
     return saved
       ? JSON.parse(saved)
-      : ["nature", "abstract", "minimal", "dark"];
+      : ["Portrait", "Illustration", "Abstract", "Space"];
   });
   const loader = useRef(null);
 
@@ -283,8 +284,13 @@ function App() {
             </h1>
             <div className="search-container">
               <form onSubmit={handleSearch}>
-                <input type="text" placeholder="Search" />
-                <ion-icon name="search-outline"></ion-icon>
+                <input 
+                  type="text" 
+                  placeholder="Search" 
+                  id="search-input"
+                  name="search"
+                />
+                <FaSearch />
               </form>
               <div className="suggestions-pills">
                 {suggestions.map((suggestion, index) => (
