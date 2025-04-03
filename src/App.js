@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaMoon, FaSun } from "react-icons/fa";
 import "./App.css";
 import Download from "./assets/download.png";
 
@@ -26,6 +26,7 @@ function App() {
       ? JSON.parse(saved)
       : ["Portrait", "Illustration", "Abstract", "Space"];
   });
+  const [theme, setTheme] = useState("system");
   const loader = useRef(null);
 
   const fetchImages = useCallback(
@@ -221,6 +222,41 @@ function App() {
     return () => clearTimeout(timer);
   }, [getImages, CACHE_DURATION]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const applyTheme = () => {
+      if (theme === "system") {
+        document.documentElement.setAttribute(
+          "data-theme",
+          mediaQuery.matches ? "dark" : "light"
+        );
+      } else {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    };
+
+    applyTheme();
+    const listener = (e) => {
+      if (theme === "system") {
+        document.documentElement.setAttribute(
+          "data-theme",
+          e.matches ? "dark" : "light"
+        );
+      }
+    };
+
+    mediaQuery.addListener(listener);
+    return () => mediaQuery.removeListener(listener);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((current) => {
+      const themeMap = { light: "dark", dark: "system", system: "light" };
+      return themeMap[current];
+    });
+  };
+
   const handleDownload = async (url, photographerName) => {
     try {
       const response = await fetch(url);
@@ -282,11 +318,22 @@ function App() {
             <h1 onClick={handleHeaderClick} style={{ cursor: "pointer" }}>
               Art-Gallery
             </h1>
+            <button onClick={toggleTheme} className="theme-toggle">
+              {theme === "dark" ? (
+                <FaSun />
+              ) : theme === "light" ? (
+                <FaMoon />
+              ) : window.matchMedia("(prefers-color-scheme: dark)").matches ? (
+                <FaSun />
+              ) : (
+                <FaMoon />
+              )}
+            </button>
             <div className="search-container">
               <form onSubmit={handleSearch}>
-                <input 
-                  type="text" 
-                  placeholder="Search" 
+                <input
+                  type="text"
+                  placeholder="Search"
                   id="search-input"
                   name="search"
                 />

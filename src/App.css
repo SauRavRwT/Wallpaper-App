@@ -1,3 +1,42 @@
+:root[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --item-bg: #f5f5f5;
+  --header-bg: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+  --item-bg: #2d2d2d;
+  --header-bg: #242424;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 8px;
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+@media only screen and (max-width: 768px) {
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+    font-size: 1.2rem;
+  }
+}
+
 .preloader {
   position: fixed;
   top: 0;
@@ -47,7 +86,8 @@
 }
 
 body {
-  background-color: #9cafaa;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   animation: fadeIn 1s ease-in-out;
 }
 
@@ -74,6 +114,7 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-color: var(--header-bg); */
 }
 
 .header h1 {
@@ -169,6 +210,7 @@ input::placeholder {
   transition: transform 0.3s ease;
   display: inline-block;
   width: 100%;
+  background-color: var(--item-bg);
 }
 
 .item:hover {
@@ -341,5 +383,5 @@ input::placeholder {
 .pill-item:hover {
   background: #4f6f52;
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
