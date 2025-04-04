@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { FaSearch, FaMoon, FaSun } from "react-icons/fa";
+import { FaSearch, FaRegMoon, FaRegSun } from "react-icons/fa";
 import "./App.css";
 import Download from "./assets/download.png";
 
@@ -26,7 +26,15 @@ function App() {
       ? JSON.parse(saved)
       : ["Portrait", "Illustration", "Abstract", "Space"];
   });
-  const [theme, setTheme] = useState("system");
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return (
+      savedTheme ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    );
+  });
   const loader = useRef(null);
 
   const fetchImages = useCallback(
@@ -223,38 +231,13 @@ function App() {
   }, [getImages, CACHE_DURATION]);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const applyTheme = () => {
-      if (theme === "system") {
-        document.documentElement.setAttribute(
-          "data-theme",
-          mediaQuery.matches ? "dark" : "light"
-        );
-      } else {
-        document.documentElement.setAttribute("data-theme", theme);
-      }
-    };
-
-    applyTheme();
-    const listener = (e) => {
-      if (theme === "system") {
-        document.documentElement.setAttribute(
-          "data-theme",
-          e.matches ? "dark" : "light"
-        );
-      }
-    };
-
-    mediaQuery.addListener(listener);
-    return () => mediaQuery.removeListener(listener);
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((current) => {
-      const themeMap = { light: "dark", dark: "system", system: "light" };
-      return themeMap[current];
-    });
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   const handleDownload = async (url, photographerName) => {
@@ -319,15 +302,7 @@ function App() {
               Art-Gallery
             </h1>
             <button onClick={toggleTheme} className="theme-toggle">
-              {theme === "dark" ? (
-                <FaSun />
-              ) : theme === "light" ? (
-                <FaMoon />
-              ) : window.matchMedia("(prefers-color-scheme: dark)").matches ? (
-                <FaSun />
-              ) : (
-                <FaMoon />
-              )}
+              {theme === "dark" ? <FaRegSun /> : <FaRegMoon />}
             </button>
             <div className="search-container">
               <form onSubmit={handleSearch}>
