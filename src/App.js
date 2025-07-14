@@ -320,8 +320,8 @@ function App() {
 
   const GenerateHTML = useCallback(
     (photos) =>
-      photos.map((photo, index) => (
-        <div className="item" key={`${photo.id}-${index}`}>
+      photos.map((photo) => (
+        <div className="item" key={photo.id}>
           <a
             href={photo.src.original}
             data-lightbox="Art-Gallery"
