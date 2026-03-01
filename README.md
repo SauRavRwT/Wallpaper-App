@@ -1,8 +1,9 @@
 # Art-Gallery
 
-<img src="./images/art-gallery-light.png" />
+<img src="./images/art-gallery-dark.png" />
 
 ## Overview
+
 Art-Gallery is a modern web application built with React.js that provides high-quality wallArt-Gallery using the Pexels API. The application offers:
 
 - High-quality wallpaper collection.
@@ -25,39 +26,52 @@ Art-Gallery is a modern web application built with React.js that provides high-q
 - Performance Optimizations with React Hooks.
 
 ## Preview
-<img src="./images/art-gallery-dark.png" />
-<img src="./images/art-gallery-like.png" width="50%" /><img src="./images/art-gallery-view.png" width="50%" />
+
+<img src="./images/art-gallery-light.png" width="50%" /><img src="./images/art-gallery-photoview.png" width="50%" />
 
 ## Installation
 
 ### Prerequisites
+
 - Node.js
 - npm (Node Package Manager)
 
 ### Setup Instructions
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/SauRavRwT/Wallpaper-App.git
 ```
 
 2. **Install dependencies**
+
 ```bash
 cd Wallpaper-App
 npm install
 ```
 
 3. **Configure API Key**
-- Get your API key from [Pexels](https://www.pexels.com/api/key/)
-- Add your API key in the project:
-```javascript
-const API_KEY = "YOUR_API_KEY";
+
+   The app reads the key from an environment variable. Follow these steps:
+   - Obtain your API key from [Pexels](https://www.pexels.com/api/key/).
+   - Create a `.env` file in the project root (same folder as `package.json`).
+   - Add the following line, replacing with your actual key:
+
+```env
+REACT_APP_PEXELS_API_KEY=YOUR_API_KEY_HERE
 ```
 
+- Restart the development server if it’s already running.
+
+If the key is missing or invalid, the app will log an error and show no images.
+
 4. **Run the application**
+
 ```bash
 npm start
 ```
+
 The application will open at [http://localhost:3000](http://localhost:3000)
 
 ## Development
