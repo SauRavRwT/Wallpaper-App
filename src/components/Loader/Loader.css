@@ -1,0 +1,53 @@
+/* Loader */
+.loader-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5em 0 1em;
+  min-height: 4em;
+}
+
+.loader {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.loader span {
+  display: block;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background: var(--text);
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.loader span:nth-child(1) {
+  animation-delay: 0s;
+}
+.loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.end-msg {
+  font-size: 0.8125em;
+  font-family: sans-serif;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
