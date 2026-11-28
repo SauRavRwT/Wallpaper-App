@@ -315,7 +315,9 @@ export default function FisheyeInfiniteGrid({
     velocityRef.current = { x: 0, y: 0 };
     event.currentTarget.classList.add("is-dragging");
     try {
-      event.currentTarget.setPointerCapture(event.pointerId);
+      const captureTarget =
+        event.target.closest(".fig-tile") || event.currentTarget;
+      captureTarget.setPointerCapture(event.pointerId);
     } catch {
       // Pointer capture can be unavailable for a synthetic pointer event.
     }
